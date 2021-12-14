@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/ChatSelectionMain"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#8FFB94"
+    tools:context=".ChatSelection">
+
+    <TextView
+        android:id="@+id/UserName"
+        android:layout_width="140dp"
+        android:layout_height="50dp"
+        android:background="#04D3BF"
+        android:fontFamily="serif"
+        android:rotationX="0"
+        android:text="Имя пользователя"
+        android:textAlignment="center"
+        android:textColor="#000000"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="#FF04D3BF"
+        android:fontFamily="serif"
+        android:text="Выберите чат"
+        android:textAlignment="center"
+        android:textColor="#000000"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/UserName" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="#FF04D3BF"
+        android:fontFamily="serif"
+        android:text="Введите имя пользователя или выберите собеседника из предложенных"
+        android:textAlignment="center"
+        android:textColor="#292727"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView2" />
+
+    <EditText
+        android:id="@+id/SearchName"
+        android:layout_width="299dp"
+        android:layout_height="23dp"
+        android:layout_marginTop="12dp"
+        android:background="#009688"
+        android:ems="10"
+        android:fontFamily="serif"
+        android:hint="Введите имя"
+        android:inputType="textPersonName"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView3" />
+
+    <Button
+        android:id="@+id/bGeneralChat"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:backgroundTint="#009688"
+        android:fontFamily="serif"
+        android:text="Общий чат"
+        android:textColor="#000000"
+        app:iconTint="#000000"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/SearchName" />
+
+    <Button
+        android:id="@+id/bFirstPerson"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:backgroundTint="#009688"
+        android:fontFamily="serif"
+        android:text="Пока что только вы пользуетесь чатом"
+        android:textColor="#000000"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/bGeneralChat" />
+
+    <Button
+        android:id="@+id/bSecondPerson"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:backgroundTint="#009688"
+        android:fontFamily="serif"
+        android:text="Пока что в чате только два пользователя"
+        android:textColor="#000000"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/bFirstPerson" />
+
+    <Button
+        android:id="@+id/bThirdPerson"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:backgroundTint="#009688"
+        android:fontFamily="serif"
+        android:text="Пока что в чате только три пользователя"
+        android:textColor="#000000"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/bSecondPerson" />
+
+    <Button
+        android:id="@+id/Search"
+        android:layout_width="0dp"
+        android:layout_height="36dp"
+        android:layout_marginTop="6dp"
+        android:backgroundTint="#FF04D3BF"
+        android:fontFamily="serif"
+        android:text="Найти"
+        android:textColor="#000000"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/SearchName"
+        app:layout_constraintTop_toBottomOf="@+id/textView3"
+        app:strokeWidth="1dp" />
+</androidx.constraintlayout.widget.ConstraintLayout>
