@@ -14,21 +14,30 @@ class MainActivity : AppCompatActivity() {
     lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState) //?
+        super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val database = Firebase.database
-        val myRef = database.getReference("message")
-        binding.buttonSend.setOnClickListener{
-            myRef.setValue(binding.input.text.toString())
-        }
-        Output(myRef)
-    }
+        val id = getIntent().getStringExtra("id") // Передал id Вошедшего пользователя
+        val database = Firebase.database // Ссылка на Базу Данных
+        val MessageRef = database.getReference("Chats").child("General Chat") // Ссылка на общий чат
+        val MainRef = database.getReference("User")
+        // Определяю имя вошедшего пользователя
+        var name = ""
+        MainRef.addValueEventListener(object: ValueEventListener{
+            override fun onDataChange(snapshot: DataSnapshot) {
+                name = snapshot.child(id.toString()).child("name").getValue().toString()
+                binding.UserNameinGeneralChat.text = name
+            }
 
-    private fun Output(dRef: DatabaseReference)
-    {
-        dRef.addValueEventListener(object: ValueEventListener{
+            override fun onCancelled(error: DatabaseError) {}
+        })
+        // Записываю сообщение в БД
+        binding.buttonSend.setOnClickListener{
+            MessageRef.setValue(name + ": " + binding.input.text.toString())
+        }
+        // Читаю сообщение из БД
+        MessageRef.addValueEventListener(object: ValueEventListener{
             override fun onDataChange(snapshot: DataSnapshot) {
                 binding.apply {
                     output.append("\n")
@@ -36,10 +45,7 @@ class MainActivity : AppCompatActivity() {
                 }
             }
 
-            override fun onCancelled(error: DatabaseError) {
-
-            }
-
+            override fun onCancelled(error: DatabaseError) {}
         })
     }
 }

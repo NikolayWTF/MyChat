@@ -4,6 +4,7 @@ package com.example.mychat
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 
 import com.example.mychat.databinding.ActivitySignInBinding
@@ -45,10 +46,11 @@ class SignInActivity : AppCompatActivity() {
             val GoodToast = Toast.makeText(this, "Добро пожаловать!", Toast.LENGTH_SHORT)
             GoodToast.show()
         }
-        fun EntryOnMainActivity()
+        fun EntryOnChatSelectionActivity(id: String)
         {
-            val EntryOnMain = Intent(this, MainActivity::class.java)
-            startActivity(EntryOnMain)
+            val EntryOnChat = Intent(this, ChatSelection::class.java)
+            EntryOnChat.putExtra("id", id)
+            startActivity(EntryOnChat)
         }
 
         binding.buttonSignUp.setOnClickListener{
@@ -78,7 +80,6 @@ class SignInActivity : AppCompatActivity() {
                         //Логин свободен - добавляем его
                         myRef.child(id.toString()).setValue(user)
                         GoodRegisterToast()
-                        EntryOnMainActivity()
                         dopvalid = 0
                     }
                     else
@@ -101,6 +102,7 @@ class SignInActivity : AppCompatActivity() {
             var valid = 0
             var Name = ""
             var Pass = ""
+            var id = ""
 
             myRef.addValueEventListener(object: ValueEventListener{
                 override fun onDataChange(dataSnapshot: DataSnapshot) {
@@ -110,6 +112,7 @@ class SignInActivity : AppCompatActivity() {
                         if ((name == Name) && (Pass == pass))
                         {
                             valid = 1
+                            id = postSnapshot.key.toString()
                         }
                     }
                     if (valid == 0)
@@ -119,7 +122,7 @@ class SignInActivity : AppCompatActivity() {
                     else
                     {
                         GoodEntryToast()
-                        EntryOnMainActivity()
+                        EntryOnChatSelectionActivity(id)
                     }
                 }
                 override fun onCancelled(databaseError: DatabaseError) {}

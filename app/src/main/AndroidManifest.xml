@@ -10,6 +10,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MyChat">
         <activity
+            android:name=".PrivateChat"
+            android:exported="false" />
+        <activity
+            android:name=".ChatSelection"
+            android:exported="false" />
+        <activity
             android:name=".SignInActivity"
             android:exported="true">
             <intent-filter>
