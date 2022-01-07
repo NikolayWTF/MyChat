@@ -14,7 +14,7 @@ import com.google.firebase.database.ValueEventListener
 
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
-
+// Окно регистрации
 class SignInActivity : AppCompatActivity() {
     lateinit var binding: ActivitySignInBinding
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -23,47 +23,51 @@ class SignInActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         val database = Firebase.database
+        // Ссыдка на таблицу пользователей
         val myRef = database.getReference("User")
 
-
+        // Ошибка в регистрации
         fun ErrorRegisterToast()
         {
             val ErrorToast = Toast.makeText(this, "К сожалению данное имя уже занято", Toast.LENGTH_SHORT)
             ErrorToast.show()
         }
+        // Успешная регистрация
         fun GoodRegisterToast()
         {
             val GoodToast = Toast.makeText(this, "Регистрация прошла успешно", Toast.LENGTH_SHORT)
             GoodToast.show()
         }
+        // Вывод сообщения об ошибке входа
         fun ErrorEntryToast()
         {
             val ErrorToast = Toast.makeText(this, "К сожалению имя пользователя и пароль не совпадают", Toast.LENGTH_SHORT)
             ErrorToast.show()
         }
+        // Вывод сообщения об успешном входе
         fun GoodEntryToast()
         {
             val GoodToast = Toast.makeText(this, "Добро пожаловать!", Toast.LENGTH_SHORT)
             GoodToast.show()
         }
+        // Переход на окно выбора чата и передача туда id вошедшего
         fun EntryOnChatSelectionActivity(id: String)
         {
             val EntryOnChat = Intent(this, ChatSelection::class.java)
             EntryOnChat.putExtra("id", id)
             startActivity(EntryOnChat)
         }
-
+        // Проверка на корректную регистрацию
         binding.buttonSignUp.setOnClickListener{
             val name = binding.inputLogin.text.toString() // Считываю ввод с поля логин
             val pass = binding.inputPass.text.toString() // Считываю ввод с поля пароль
             val user = User(name, pass) // создаю объект класса User, который будет добавлен в БД
-            var valid = 1 // Переменная для определения свободно ли имя
-            var id = 0
-            var dopvalid = 1
+
 
             myRef.addValueEventListener(object : ValueEventListener {
                 override fun onDataChange(dataSnapshot: DataSnapshot) {
-                    id = 0 // Это будет id пользователя
+                     var valid = 1 // Переменная для определения свободно ли имя
+                     var id = 0 // Это будет id пользователя
 
                     for (postSnapshot in dataSnapshot.children) {
                         if (name == postSnapshot.child("name").getValue().toString())
@@ -80,14 +84,12 @@ class SignInActivity : AppCompatActivity() {
                         //Логин свободен - добавляем его
                         myRef.child(id.toString()).setValue(user)
                         GoodRegisterToast()
-                        dopvalid = 0
+
                     }
                     else
                     {
-                        if (dopvalid == 1)
-                        {//К сожалению такой логин уже занят.
-                            ErrorRegisterToast()
-                        }
+                    //К сожалению такой логин уже занят.
+                    ErrorRegisterToast()
                     }
                 }
 
@@ -95,17 +97,16 @@ class SignInActivity : AppCompatActivity() {
             })
 
         }
-
+        // Проверка на корректный вход
         binding.buttonSignIn.setOnClickListener{
             val name = binding.inputLogin.text.toString()
             val pass = binding.inputPass.text.toString()
-            var valid = 0
-            var Name = ""
-            var Pass = ""
-            var id = ""
-
             myRef.addValueEventListener(object: ValueEventListener{
                 override fun onDataChange(dataSnapshot: DataSnapshot) {
+                    var id = ""
+                    var valid = 0
+                    var Name = ""
+                    var Pass = ""
                     for (postSnapshot in dataSnapshot.children) {
                         Name = postSnapshot.child("name").getValue().toString()
                         Pass = postSnapshot.child("pass").getValue().toString()

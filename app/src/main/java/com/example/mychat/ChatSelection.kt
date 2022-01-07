@@ -4,6 +4,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import com.example.mychat.databinding.ActivityChatSelectionBinding
 import com.example.mychat.databinding.ActivitySignInBinding
 import com.google.firebase.database.DataSnapshot
@@ -13,7 +14,7 @@ import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import java.util.jar.Attributes
 
-
+// Окно с выбором собеседника
 class ChatSelection : AppCompatActivity() {
     lateinit var binding: ActivityChatSelectionBinding
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -26,6 +27,8 @@ class ChatSelection : AppCompatActivity() {
         val MainRef = database.getReference("User") // Ссылка на всю таблицу User
 
         var name = ""
+        // У нас есть 3 кнопки с быстрым доступом к сообщениям. Если в базе меньше 3 пользователей то выводить нечего - для проверки этого
+        // Нужны эти пеерменные
         var IdFirstPerson = ""
         var IdSecondPerson = ""
         var IdThirdPerson = ""
@@ -101,6 +104,45 @@ class ChatSelection : AppCompatActivity() {
                     startActivity(intent)
 
             }
+
+        fun NoPersonToast(){
+            val NoPerson = Toast.makeText(this, "Данный пользователь не зарегистрирован", Toast.LENGTH_SHORT)
+            NoPerson.show()
+        }
+        fun PersonChat(index: String){
+            val intent = Intent(this, PrivateChat::class.java)
+            intent.putExtra("UserId", id)
+            intent.putExtra("ReceivedId", index)
+            startActivity(intent)
+        }
+        // Обработка поисковой строки
+        binding.Search.setOnClickListener{
+            val name = binding.SearchName.text.toString()
+            MainRef.addValueEventListener(object : ValueEventListener {
+                override fun onDataChange(dataSnapshot: DataSnapshot) {
+                    var id = ""
+                    var valid = 1
+                    for (index in dataSnapshot.children)
+                    {
+                        if (name == index.child("name").getValue().toString())
+                        {
+                            id = index.key.toString()
+                            valid = 0
+                        }
+                    }
+                    if (valid == 1)
+                    {
+                        NoPersonToast()
+                    }
+                    else
+                    {
+                        PersonChat(id)
+                    }
+                }
+
+                override fun onCancelled(databaseError: DatabaseError) {}
+            })
+        }
 
 
 

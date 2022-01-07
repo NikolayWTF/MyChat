@@ -5,75 +5,35 @@
     android:id="@+id/ChatSelectionMain"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#8FFB94"
+    android:background="#03A9F4"
+    android:backgroundTint="#03A9F4"
     tools:context=".ChatSelection">
-
-    <TextView
-        android:id="@+id/UserName"
-        android:layout_width="140dp"
-        android:layout_height="50dp"
-        android:background="#04D3BF"
-        android:fontFamily="serif"
-        android:rotationX="0"
-        android:text="Имя пользователя"
-        android:textAlignment="center"
-        android:textColor="#000000"
-        android:textSize="20sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/textView2"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:background="#FF04D3BF"
+        android:layout_marginTop="5dp"
         android:fontFamily="serif"
-        android:text="Выберите чат"
+        android:text="Чаты"
         android:textAlignment="center"
-        android:textColor="#000000"
-        android:textSize="24sp"
+        android:textColor="#FFFFFF"
+        android:textSize="28sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/UserName" />
-
-    <TextView
-        android:id="@+id/textView3"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:background="#FF04D3BF"
-        android:fontFamily="serif"
-        android:text="Введите имя пользователя или выберите собеседника из предложенных"
-        android:textAlignment="center"
-        android:textColor="#292727"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView2" />
-
-    <EditText
-        android:id="@+id/SearchName"
-        android:layout_width="299dp"
-        android:layout_height="23dp"
-        android:layout_marginTop="12dp"
-        android:background="#009688"
-        android:ems="10"
-        android:fontFamily="serif"
-        android:hint="Введите имя"
-        android:inputType="textPersonName"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView3" />
+        app:layout_constraintTop_toBottomOf="@+id/SignInHeader" />
 
     <Button
         android:id="@+id/bGeneralChat"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:backgroundTint="#009688"
+        android:layout_height="80dp"
+        android:layout_marginTop="64dp"
+        android:backgroundTint="#15AEF3"
         android:fontFamily="serif"
         android:text="Общий чат"
-        android:textColor="#000000"
+        android:textAlignment="viewStart"
+        android:textColor="#FFFFFF"
         app:iconTint="#000000"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -83,11 +43,13 @@
     <Button
         android:id="@+id/bFirstPerson"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:backgroundTint="#009688"
+        android:layout_height="80dp"
+        android:layout_marginTop="8dp"
+        android:backgroundTint="#15AEF3"
         android:fontFamily="serif"
         android:text="Пока что только вы пользуетесь чатом"
-        android:textColor="#000000"
+        android:textAlignment="viewStart"
+        android:textColor="#FFFFFF"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/bGeneralChat" />
@@ -95,11 +57,13 @@
     <Button
         android:id="@+id/bSecondPerson"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:backgroundTint="#009688"
+        android:layout_height="80dp"
+        android:layout_marginTop="8dp"
+        android:backgroundTint="#15AEF3"
         android:fontFamily="serif"
         android:text="Пока что в чате только два пользователя"
-        android:textColor="#000000"
+        android:textAlignment="viewStart"
+        android:textColor="#FFFFFF"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/bFirstPerson" />
@@ -107,27 +71,120 @@
     <Button
         android:id="@+id/bThirdPerson"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:backgroundTint="#009688"
+        android:layout_height="80dp"
+        android:layout_marginTop="8dp"
+        android:backgroundTint="#15AEF3"
         android:fontFamily="serif"
         android:text="Пока что в чате только три пользователя"
-        android:textColor="#000000"
+        android:textAlignment="viewStart"
+        android:textColor="#FFFFFF"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/bSecondPerson" />
 
-    <Button
-        android:id="@+id/Search"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/SignInHeader"
         android:layout_width="0dp"
-        android:layout_height="36dp"
-        android:layout_marginTop="6dp"
-        android:backgroundTint="#FF04D3BF"
-        android:fontFamily="serif"
-        android:text="Найти"
-        android:textColor="#000000"
+        android:layout_height="100dp"
+        android:background="#2196F3"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/UserName"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="10dp"
+            android:fontFamily="serif"
+            android:rotationX="0"
+            android:text="Имя пользователя"
+            android:textAlignment="textStart"
+            android:textColor="#FFFFFF"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/cardView2"
+            app:layout_constraintTop_toTopOf="@+id/cardView2" />
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardView2"
+            android:layout_width="55dp"
+            android:layout_height="55dp"
+            android:layout_marginStart="16dp"
+            app:cardCornerRadius="100dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:id="@+id/UserPhoto"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:srcCompat="@drawable/defaultuser" />
+        </androidx.cardview.widget.CardView>
+
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="serif"
+            android:text="Grigorev's Chat"
+            android:textColor="#FFFFFF"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="#03A9F4"
+        android:backgroundTint="#0498DC"
+        app:layout_constraintBottom_toBottomOf="@+id/SearchName"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/SearchName"
-        app:layout_constraintTop_toBottomOf="@+id/textView3"
-        app:strokeWidth="1dp" />
+        app:layout_constraintTop_toTopOf="@+id/SearchName">
+
+        <ImageView
+            android:id="@+id/Search"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:srcCompat="@android:drawable/ic_menu_search" />
+    </androidx.cardview.widget.CardView>
+
+    <EditText
+        android:id="@+id/SearchName"
+        android:layout_width="267dp"
+        android:layout_height="47dp"
+        android:layout_marginTop="24dp"
+        android:ems="10"
+        android:fontFamily="serif"
+        android:inputType="textPersonName"
+        android:text="Введите имя"
+        android:textColor="#FFFFFF"
+        android:textColorHint="#FFFFFF"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView2" />
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="55dp"
+        android:layout_height="55dp"
+        app:cardBackgroundColor="#2196F3"
+        app:cardCornerRadius="100dp"
+        app:layout_constraintBottom_toTopOf="@+id/textView2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/textView2">
+
+        <ImageView
+            android:id="@+id/imageView4"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:srcCompat="@android:drawable/ic_menu_camera" />
+    </androidx.cardview.widget.CardView>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

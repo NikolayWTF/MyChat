@@ -10,6 +10,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MyChat">
         <activity
+            android:name=".PersonalActivity"
+            android:exported="false" />
+        <activity
             android:name=".PrivateChat"
             android:exported="false" />
         <activity
