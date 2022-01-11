@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#03A9F4"
-    android:backgroundTint="#03A9F4"
+    android:backgroundTint="#6BD1FA"
     tools:context=".ChatSelection">
 
     <TextView
@@ -158,13 +158,13 @@
 
     <EditText
         android:id="@+id/SearchName"
-        android:layout_width="267dp"
-        android:layout_height="47dp"
+        android:layout_width="321dp"
+        android:layout_height="45dp"
         android:layout_marginTop="24dp"
         android:ems="10"
         android:fontFamily="serif"
+        android:hint="Введите имя"
         android:inputType="textPersonName"
-        android:text="Введите имя"
         android:textColor="#FFFFFF"
         android:textColorHint="#FFFFFF"
         android:textSize="16sp"

@@ -1,10 +1,14 @@
 package com.example.mychat
 
 import android.content.Intent
+import android.icu.util.Output
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.widget.LinearLayout
+import android.widget.ListAdapter
 import android.widget.Toast
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.mychat.databinding.ActivityMainBinding
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -17,11 +21,14 @@ import com.theartofdev.edmodo.cropper.CropImage
 // Это глобальный чат
 class MainActivity : AppCompatActivity() {
     lateinit var binding: ActivityMainBinding
+    lateinit var adapter: UserRCAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+
         // Передал id Вошедшего пользователя
         val id = getIntent().getStringExtra("id")
         // Ссылка на Базу Данных
@@ -49,25 +56,41 @@ class MainActivity : AppCompatActivity() {
             }
             override fun onCancelled(databaseError: DatabaseError) {}
         })
+
+
+
+
         // Записываю сообщение в БД
         binding.buttonSend.setOnClickListener{
-            MessageRef.child(message_id.toString()).setValue(name + ": " + binding.input.text.toString())
-
+            val user = UserRC(name, binding.input.text.toString())
+            MessageRef.child(message_id.toString()).setValue(user)
         }
+
         // Читаю сообщение из БД и вывожу его на экран
-        MessageRef.addValueEventListener(object: ValueEventListener{
+        MessageRef.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
-
-                binding.apply {
-
-                    output.append("\n")
-                    output.append(snapshot.child((message_id - 1).toString()).value.toString())
+                var list = ArrayList<UserRC>()
+                for (s in snapshot.children) {
+                    val user = s.getValue(UserRC::class.java)
+                    if (user != null) {
+                        list.add(user)
+                    }
                 }
+                adapter.submitList(list)
+
             }
 
             override fun onCancelled(error: DatabaseError) {}
         })
+        initRcView()
 
 
     }
+    private fun initRcView() = with(binding){
+        adapter = UserRCAdapter()
+        rcView.layoutManager = LinearLayoutManager(this@MainActivity)
+        rcView.adapter = adapter
+    }
+
+
 }

@@ -3,6 +3,7 @@ package com.example.mychat
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.mychat.databinding.ActivityPrivateChatBinding
 import com.example.mychat.databinding.ActivitySignInBinding
 import com.google.firebase.database.DataSnapshot
@@ -14,6 +15,7 @@ import com.google.firebase.ktx.Firebase
 
 class PrivateChat : AppCompatActivity() {
     lateinit var binding: ActivityPrivateChatBinding
+    lateinit var adapter: UserRCPrivateAdapter
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityPrivateChatBinding.inflate(layoutInflater)
@@ -29,18 +31,26 @@ class PrivateChat : AppCompatActivity() {
 
         fun InputInChat(ChatName: DatabaseReference, message: Int) {
             // Запись сообщения в чат
+
             binding.bSendInPrivateChat.setOnClickListener {
-                ChatName.child(message.toString())
-                    .setValue(UserName + ": " + binding.PrivateChatInput.text.toString())
+                var user = UserRC(UserName, binding.PrivateChatInput.text.toString())
+                ChatName.child((message - 1).toString())
+                    .setValue(user)
             }
         }
         fun OutputInChat(ChatName: DatabaseReference, message: Int, snapshot: DataSnapshot){
             // Вывод на экран
-                if (snapshot.child((message-1).toString()).value.toString() != null) {
-                    binding.apply {
-                        PrivateChatOutput.append("\n")
-                        PrivateChatOutput.append(snapshot.child((message - 1).toString()).value.toString())
+
+                if (snapshot.child((message).toString()).value.toString() != null) {
+                    var list = ArrayList<UserRC>()
+                    for (s in snapshot.children) {
+                        val user = s.getValue(UserRC::class.java)
+                        if (user != null) {
+                            list.add(user)
+                        }
                     }
+                    Log.d("MyLog", list.toString())
+                    adapter.submitList(list)
                 }
         }
 
@@ -88,7 +98,11 @@ class PrivateChat : AppCompatActivity() {
             }
             override fun onCancelled(databaseError: DatabaseError) {}
         })
-
-
+        initRcView()
+    }
+    private fun initRcView() = with(binding){
+        adapter = UserRCPrivateAdapter()
+        rcViewPrivate.layoutManager = LinearLayoutManager(this@PrivateChat)
+        rcViewPrivate.adapter = adapter
     }
 }

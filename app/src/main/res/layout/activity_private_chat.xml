@@ -4,16 +4,18 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#03A9F4"
     tools:context=".PrivateChat">
 
     <TextView
         android:id="@+id/UserNameinPrivateChat"
         android:layout_width="140dp"
         android:layout_height="50dp"
-        android:background="#04D3BF"
+        android:background="#2196F3"
         android:fontFamily="serif"
-        android:text="Имя человека"
+        android:text="Имя пользователя"
         android:textAlignment="center"
+        android:textColor="#000000"
         android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -22,27 +24,16 @@
         android:id="@+id/PrivateChatName"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:background="#009688"
+        android:background="#03A9F4"
         android:fontFamily="serif"
         android:text="Название чата"
         android:textAlignment="center"
-        android:textSize="16sp"
-        app:layout_constraintBottom_toTopOf="@+id/PrivateChatOutput"
+        android:textColor="#000000"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toTopOf="@+id/rcViewPrivate"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/UserNameinPrivateChat"
         app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/PrivateChatOutput"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:fontFamily="sans-serif"
-        android:text="hello"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toTopOf="@+id/PrivateChatInput"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/UserNameinPrivateChat" />
 
     <EditText
         android:id="@+id/PrivateChatInput"
@@ -59,8 +50,19 @@
         android:id="@+id/bSendInPrivateChat"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:backgroundTint="#0498DC"
         android:text="Отправить"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rcViewPrivate"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="#6BD1FA"
+        app:layout_constraintBottom_toTopOf="@+id/PrivateChatInput"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/UserNameinPrivateChat" />
 </androidx.constraintlayout.widget.ConstraintLayout>
