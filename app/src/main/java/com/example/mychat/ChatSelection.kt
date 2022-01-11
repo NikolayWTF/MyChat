@@ -12,6 +12,9 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
+import com.theartofdev.edmodo.cropper.CropImage
+import com.theartofdev.edmodo.cropper.CropImageView
+import org.jetbrains.annotations.Contract
 import java.util.jar.Attributes
 
 // Окно с выбором собеседника
@@ -115,6 +118,31 @@ class ChatSelection : AppCompatActivity() {
             intent.putExtra("ReceivedId", index)
             startActivity(intent)
         }
+
+        // Это функция для добавления аватарки пользователя
+//        fun ChangePhotoUser(){
+//            CropImage.activity() // Запускаю activity
+//                .setAspectRatio(1, 1) // activity не будет расстягиваться
+//                .setRequestedSize(600, 600)// Уменьшаю размер передаваемого фото
+//                .setCropShape(CropImageView.CropShape.OVAL) // Делаю фото круглым
+//                .start(this) // Запускаю
+//        }
+//
+//        fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+//
+//            if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE && resultCode == RESULT_OK && data != null)
+//            {
+//                val uri = CropImage.getActivityResult(data).uri
+//                val path = database.getReference("User").child(id.toString()).child("avatar")
+//                path.setValue(uri.toString()).addOnCompleteListener{
+//                    if (it.isSuccessful){
+//                        Toast.makeText(this,"Данные обновлены", Toast.LENGTH_SHORT)
+//                    }
+//                }
+//            }
+//        }
+
+
         // Обработка поисковой строки
         binding.Search.setOnClickListener{
             val name = binding.SearchName.text.toString()
@@ -144,6 +172,9 @@ class ChatSelection : AppCompatActivity() {
             })
         }
 
+//        binding.Camera.setOnClickListener{
+//            ChangePhotoUser()
+//        }
 
 
 

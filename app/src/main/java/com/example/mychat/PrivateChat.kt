@@ -27,37 +27,25 @@ class PrivateChat : AppCompatActivity() {
         var UserName = ""
         var RecivedName = ""
 
-        fun InputInChat(ChatName: DatabaseReference, message: Int)
-        {
+        fun InputInChat(ChatName: DatabaseReference, message: Int) {
             // Запись сообщения в чат
-            binding.bSendInPrivateChat.setOnClickListener{
-                ChatName.child(message.toString()).setValue(UserName + ": " + binding.PrivateChatInput.text.toString())
+            binding.bSendInPrivateChat.setOnClickListener {
+                ChatName.child(message.toString())
+                    .setValue(UserName + ": " + binding.PrivateChatInput.text.toString())
             }
+        }
+        fun OutputInChat(ChatName: DatabaseReference, message: Int, snapshot: DataSnapshot){
             // Вывод на экран
-            Log.d("MyLog", "Yачинается вывод на экран")
-            ChatName.addValueEventListener(object: ValueEventListener{
-                override fun onDataChange(dataSnapshot: DataSnapshot) {
-                    Log.d("MyLog", dataSnapshot.toString())
-                    Log.d("MyLog", dataSnapshot.child(message.toString()).value.toString())
-
+                if (snapshot.child((message-1).toString()).value.toString() != null) {
                     binding.apply {
-                        Log.d("MyLog", "Внутри эплай")
-
                         PrivateChatOutput.append("\n")
-                        PrivateChatOutput.append(dataSnapshot.child(message.toString()).value.toString())
-                        
-                        Log.d("MyLog", message.toString())
+                        PrivateChatOutput.append(snapshot.child((message - 1).toString()).value.toString())
                     }
                 }
-                override fun onCancelled(error: DatabaseError) {}
-            })
         }
 
         fun ChatNameFun(UserName: String, RecivedName: String)
         {
-            // Считаю id для сообщения
-            var message_id = 0
-
 
             // Называем чат. Проверка нужна, потому что чат между А и Б это то же самое, что и чат между Б и А
             if (UserId!!.toInt() > ReceivedId!!.toInt())
@@ -70,15 +58,17 @@ class PrivateChat : AppCompatActivity() {
                 ChatN = ("Chat between " + RecivedName + " and " + UserName)
             }
             binding.PrivateChatName.text = ChatN
+            // Считаю id для того чтобы хранить сообщения
             var ChatName = database.getReference("Chats").child(ChatN) // Ссылка на чат
             ChatName.addValueEventListener(object: ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
-                    message_id = -1
+                    var message_id = 0
                     for (i in snapshot.children) {
                         message_id += 1
                     }
                     Log.d("MyLog", "Вызываю Input")
                     InputInChat(ChatName, message_id)
+                    OutputInChat(ChatName, message_id, snapshot)
                 }
                 override fun onCancelled(databaseError: DatabaseError) {}
             } )

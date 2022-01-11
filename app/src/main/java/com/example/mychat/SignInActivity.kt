@@ -74,7 +74,6 @@ class SignInActivity : AppCompatActivity() {
                         {
                             // Такое имя уже зарегистрировано
                             valid = 0
-
                         }
                         id += 1
                     }
@@ -84,6 +83,7 @@ class SignInActivity : AppCompatActivity() {
                         //Логин свободен - добавляем его
                         myRef.child(id.toString()).setValue(user)
                         GoodRegisterToast()
+                        EntryOnChatSelectionActivity(id.toString())
 
                     }
                     else

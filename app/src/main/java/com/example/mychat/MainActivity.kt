@@ -1,8 +1,10 @@
 package com.example.mychat
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import com.example.mychat.databinding.ActivityMainBinding
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -10,6 +12,7 @@ import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
+import com.theartofdev.edmodo.cropper.CropImage
 
 // Это глобальный чат
 class MainActivity : AppCompatActivity() {
@@ -64,5 +67,7 @@ class MainActivity : AppCompatActivity() {
 
             override fun onCancelled(error: DatabaseError) {}
         })
+
+
     }
 }
