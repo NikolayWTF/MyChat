@@ -1,22 +1,14 @@
 package com.example.mychat
 
-import android.content.Intent
-import android.icu.util.Output
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
-import android.widget.LinearLayout
-import android.widget.ListAdapter
-import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.mychat.databinding.ActivityMainBinding
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
-import com.theartofdev.edmodo.cropper.CropImage
 
 // Это глобальный чат
 class MainActivity : AppCompatActivity() {
@@ -69,7 +61,7 @@ class MainActivity : AppCompatActivity() {
         // Читаю сообщение из БД и вывожу его на экран
         MessageRef.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
-                var list = ArrayList<UserRC>()
+                val list = ArrayList<UserRC>()
                 for (s in snapshot.children) {
                     val user = s.getValue(UserRC::class.java)
                     if (user != null) {

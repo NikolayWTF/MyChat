@@ -3,19 +3,13 @@ package com.example.mychat
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.widget.Toast
 import com.example.mychat.databinding.ActivityChatSelectionBinding
-import com.example.mychat.databinding.ActivitySignInBinding
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
-import com.theartofdev.edmodo.cropper.CropImage
-import com.theartofdev.edmodo.cropper.CropImageView
-import org.jetbrains.annotations.Contract
-import java.util.jar.Attributes
 
 // Окно с выбором собеседника
 class ChatSelection : AppCompatActivity() {
@@ -29,7 +23,7 @@ class ChatSelection : AppCompatActivity() {
         val IdRef = database.getReference("User").child(id.toString()) // Ссылка на пользователя
         val MainRef = database.getReference("User") // Ссылка на всю таблицу User
 
-        var name = ""
+
         // У нас есть 3 кнопки с быстрым доступом к сообщениям. Если в базе меньше 3 пользователей то выводить нечего - для проверки этого
         // Нужны эти пеерменные
         var IdFirstPerson = ""
@@ -38,7 +32,7 @@ class ChatSelection : AppCompatActivity() {
         // Вывод в левом верхнем углу экрана имени пользователя
         IdRef.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
-                name = dataSnapshot.child("name").getValue().toString()
+                val name = dataSnapshot.child("name").getValue().toString()
                 binding.UserName.text = name
             }
 
@@ -47,7 +41,7 @@ class ChatSelection : AppCompatActivity() {
         // Подписываю кнопки, которые начинают быстрый чат с пользователем.
         MainRef.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
-                var count = 0;
+                var count = 0
                 for (index in dataSnapshot.children) {
 
                     if (id != index.key.toString()) {
