@@ -28,59 +28,45 @@
         android:id="@+id/bGeneralChat"
         android:layout_width="0dp"
         android:layout_height="80dp"
-        android:layout_marginTop="64dp"
+        android:layout_marginBottom="16dp"
         android:backgroundTint="#15AEF3"
         android:fontFamily="serif"
         android:text="Общий чат"
         android:textAlignment="viewStart"
         android:textColor="#FFFFFF"
         app:iconTint="#000000"
+        app:layout_constraintBottom_toTopOf="@+id/MyChats"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/SearchName" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Button
-        android:id="@+id/bFirstPerson"
+        android:id="@+id/MyChats"
         android:layout_width="0dp"
         android:layout_height="80dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginBottom="16dp"
         android:backgroundTint="#15AEF3"
         android:fontFamily="serif"
-        android:text="Пока что только вы пользуетесь чатом"
+        android:text="Мои чаты"
         android:textAlignment="viewStart"
         android:textColor="#FFFFFF"
+        app:layout_constraintBottom_toTopOf="@+id/CreateChat"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/bGeneralChat" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Button
-        android:id="@+id/bSecondPerson"
+        android:id="@+id/CreateChat"
         android:layout_width="0dp"
         android:layout_height="80dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginBottom="32dp"
         android:backgroundTint="#15AEF3"
         android:fontFamily="serif"
-        android:text="Пока что в чате только два пользователя"
+        android:text="Создать чат"
         android:textAlignment="viewStart"
         android:textColor="#FFFFFF"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/bFirstPerson" />
-
-    <Button
-        android:id="@+id/bThirdPerson"
-        android:layout_width="0dp"
-        android:layout_height="80dp"
-        android:layout_marginTop="8dp"
-        android:backgroundTint="#15AEF3"
-        android:fontFamily="serif"
-        android:text="Пока что в чате только три пользователя"
-        android:textAlignment="viewStart"
-        android:textColor="#FFFFFF"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/bSecondPerson" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/SignInHeader"
@@ -160,7 +146,7 @@
         android:id="@+id/SearchName"
         android:layout_width="321dp"
         android:layout_height="45dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="32dp"
         android:ems="10"
         android:fontFamily="serif"
         android:hint="Введите имя"

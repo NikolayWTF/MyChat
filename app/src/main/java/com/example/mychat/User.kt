@@ -1,5 +1,5 @@
 package com.example.mychat
 
-class User (var name: String, var pass: String) {
+class User (var id: String, var name: String, var pass: String, var Chats: ArrayList<String>) {
 
 }

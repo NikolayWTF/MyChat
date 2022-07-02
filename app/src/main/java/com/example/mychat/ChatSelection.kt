@@ -10,6 +10,13 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import java.io.BufferedReader
+import java.io.InputStreamReader
+import java.io.OutputStreamWriter
+import java.net.HttpURLConnection
+import java.net.URL
 
 // Окно с выбором собеседника
 class ChatSelection : AppCompatActivity() {
@@ -23,48 +30,52 @@ class ChatSelection : AppCompatActivity() {
         val IdRef = database.getReference("User").child(id.toString()) // Ссылка на пользователя
         val MainRef = database.getReference("User") // Ссылка на всю таблицу User
 
-
-        // У нас есть 3 кнопки с быстрым доступом к сообщениям. Если в базе меньше 3 пользователей то выводить нечего - для проверки этого
-        // Нужны эти пеерменные
-        var IdFirstPerson = ""
-        var IdSecondPerson = ""
-        var IdThirdPerson = ""
-        // Вывод в левом верхнем углу экрана имени пользователя
-        IdRef.addValueEventListener(object : ValueEventListener {
-            override fun onDataChange(dataSnapshot: DataSnapshot) {
-                val name = dataSnapshot.child("name").getValue().toString()
-                binding.UserName.text = name
-            }
-
-            override fun onCancelled(databaseError: DatabaseError) {}
-        })
-        // Подписываю кнопки, которые начинают быстрый чат с пользователем.
-        MainRef.addValueEventListener(object : ValueEventListener {
-            override fun onDataChange(dataSnapshot: DataSnapshot) {
-                var count = 0
-                for (index in dataSnapshot.children) {
-
-                    if (id != index.key.toString()) {
-                        if (count == 0) {
-                            IdFirstPerson = index.key.toString()
-                            binding.bFirstPerson.text = index.child("name").getValue().toString()
-                        } else
-                            if (count == 1) {
-                                IdSecondPerson = index.key.toString()
-                                binding.bSecondPerson.text = index.child("name").getValue().toString()
-                            } else
-                                if (count == 2) {
-                                    IdThirdPerson = index.key.toString()
-                                    binding.bThirdPerson.text = index.child("name").getValue().toString()
-                                }
-
-                        count++
-                    }
+        fun sendPost(id: String, api: String): StringBuffer {
+            var urlPost: String
+            if (api == "get_name") {
+                if (id == "") {
+                    urlPost = "http://10.0.2.2:8888/$api" // URL для запроса
+                } else {
+                    urlPost = "http://10.0.2.2:8888/$api?id=$id" // URL для запроса
                 }
             }
+            else{
+                if (id == ""){
+                    urlPost = "http://10.0.2.2:8888/$api" // URL для запроса
+                }
+                else{
+                    urlPost = "http://10.0.2.2:8888/$api?name=$id" // URL для запроса
+                }
+            }
+            val mURL = URL(urlPost)
+            with(mURL.openConnection() as HttpURLConnection) {
+                requestMethod = "POST"
 
-            override fun onCancelled(databaseError: DatabaseError) {}
-        })
+                val wr = OutputStreamWriter(outputStream)
+                wr.flush()
+                println("\nSending 'POST' request to URL : $url")
+                println("Response Code : $responseCode")
+
+                BufferedReader(InputStreamReader(inputStream)).use {
+                    val response = StringBuffer()
+                    var inputLine = it.readLine()
+                    while (inputLine != null) {
+                        response.append(inputLine)
+                        inputLine = it.readLine()
+                    }
+                    it.close()
+                    println("POST Response : $response")
+                    return response
+                }
+            }
+        }
+        var name: StringBuffer
+        // Вывод в левом верхнем углу экрана имени пользователя
+        GlobalScope.launch { // запуск новой сопрограммы в фоне
+            name = sendPost(id.toString(), "get_name.php")
+            binding.UserName.text = name
+        }
+
         // Обработка кнопки для входа в глобальный чат
         binding.bGeneralChat.setOnClickListener {
             val EntryOnChat = Intent(this, MainActivity::class.java)
@@ -72,39 +83,23 @@ class ChatSelection : AppCompatActivity() {
             startActivity(EntryOnChat)
         }
 
-        // Обработка кнопки bFirstPerson
-        binding.bFirstPerson.setOnClickListener{
-
-            val intent = Intent(this, PrivateChat::class.java)
+        // Обработка кнопки CreateChat
+        binding.CreateChat.setOnClickListener {
+            val intent = Intent(this, CreateChat::class.java)
             intent.putExtra("UserId", id)
-            intent.putExtra("ReceivedId", IdFirstPerson)
+            startActivity(intent)
+            }
+
+        binding.MyChats.setOnClickListener {
+
+            val intent = Intent(this, MyChats::class.java)
+            intent.putExtra("UserId", id)
             startActivity(intent)
 
-            }
+        }
 
-        // Обработка кнопки bSecondPerson
-        binding.bSecondPerson.setOnClickListener {
-
-            val intent = Intent(this, PrivateChat::class.java)
-            intent.putExtra("UserId", id)
-            intent.putExtra("ReceivedId", IdSecondPerson)
-            startActivity(intent)
-
-            }
-
-        // Обработка кнопки bThirdPerson
-        binding.bThirdPerson.setOnClickListener {
-
-                    val intent = Intent(this, PrivateChat::class.java)
-                    intent.putExtra("UserId", id)
-                    intent.putExtra("ReceivedId", IdThirdPerson)
-                    startActivity(intent)
-
-            }
-
-        fun NoPersonToast(){
-            val NoPerson = Toast.makeText(this, "Данный пользователь не зарегистрирован", Toast.LENGTH_SHORT)
-            NoPerson.show()
+        fun NoPerson(){
+            println("Данный пользователь не зарегистрирован")
         }
         fun PersonChat(index: String){
             val intent = Intent(this, PrivateChat::class.java)
@@ -113,67 +108,25 @@ class ChatSelection : AppCompatActivity() {
             startActivity(intent)
         }
 
-        // Это функция для добавления аватарки пользователя
-//        fun ChangePhotoUser(){
-//            CropImage.activity() // Запускаю activity
-//                .setAspectRatio(1, 1) // activity не будет расстягиваться
-//                .setRequestedSize(600, 600)// Уменьшаю размер передаваемого фото
-//                .setCropShape(CropImageView.CropShape.OVAL) // Делаю фото круглым
-//                .start(this) // Запускаю
-//        }
-//
-//        fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-//
-//            if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE && resultCode == RESULT_OK && data != null)
-//            {
-//                val uri = CropImage.getActivityResult(data).uri
-//                val path = database.getReference("User").child(id.toString()).child("avatar")
-//                path.setValue(uri.toString()).addOnCompleteListener{
-//                    if (it.isSuccessful){
-//                        Toast.makeText(this,"Данные обновлены", Toast.LENGTH_SHORT)
-//                    }
-//                }
-//            }
-//        }
-
-
         // Обработка поисковой строки
-        binding.Search.setOnClickListener{
+        binding.Search.setOnClickListener {
             val name = binding.SearchName.text.toString()
-            MainRef.addValueEventListener(object : ValueEventListener {
-                override fun onDataChange(dataSnapshot: DataSnapshot) {
-                    var id = ""
-                    var valid = 1
-                    for (index in dataSnapshot.children)
-                    {
-                        if (name == index.child("name").getValue().toString())
-                        {
-                            id = index.key.toString()
-                            valid = 0
-                        }
-                    }
-                    if (valid == 1)
-                    {
-                        NoPersonToast()
-                    }
-                    else
-                    {
-                        PersonChat(id)
-                    }
+            GlobalScope.launch { // запуск новой сопрограммы в фоне
+                val id = getIntent().getStringExtra("id") // Передал id Вошедшего пользователя
+                val index = sendPost(name, "get_id.php")
+                binding.UserName.text = name
+                if (index.toString() == "Пользователь не зарегистрирован в чате" || id.toString() == "Некорректный запрос")
+                {
+                    NoPerson()
                 }
-
-                override fun onCancelled(databaseError: DatabaseError) {}
-            })
+                else
+                {
+                    PersonChat(index.toString())
+                }
+            }
         }
 
-//        binding.Camera.setOnClickListener{
-//            ChangePhotoUser()
-//        }
-
-
-
-
-
+        }
     }
-}
+
 

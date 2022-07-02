@@ -26,7 +26,7 @@ class MainActivity : AppCompatActivity() {
         // Ссылка на Базу Данных
         val database = Firebase.database
         // Ссылка на глобальный чат
-        val MessageRef = database.getReference("Chats").child("General Chat")
+        val MessageRef = database.getReference("Chats").push().child("General Chat")
         val MainRef = database.getReference("User")
         // Определяю имя вошедшего пользователя
         var name = ""
